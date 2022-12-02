@@ -15,10 +15,8 @@ def my_func(arr):
     print(result)
     return result
 
-#arr = [45, 456,"",75, 34]
 buffer = []
 sums = []
-#arr = [line for line in fileinput.input()]
 for line in fileinput.input():
     if line != '\n':
         buffer.append(line)
@@ -26,13 +24,4 @@ for line in fileinput.input():
         sums.append(sum([int(num.replace('\n', "")) for num in buffer]))
         buffer = []
 print(max(sums))
-#import pdb;pdb.set_trace()
-#i = 0
-#while i < len(arr):
-#    if arr[i] == '\n':
-#        arr[i] = 0
-#    i += 1
-#my_lst = [int(arr) for line in arr]
-#print(arr)
-#arr = [int(line) for line in fileinput.input()]
-#my_func(arr)
+
