@@ -1,19 +1,20 @@
 with open('input', 'r') as f:
     inpt = f.read()
 
-lst = []
-for index in range(len(inpt)):
-    for i in range(4):
-        for j in range(4):
-            j = i + 1
-            if inpt[i] == inpt[j]:
-                break
-            lst[i] = lst.append(inpt[i:j])
+set_list = []
+for i in range(0, len(inpt), 4):
+    set_list.append(set(inpt[i:(i+4)]))
 
-            #lst.append(j)
-    #print(j)       
+sum_list = []        
+for i in range(len(set_list)):
+    sum_list.append(len(set_list[i]))
+    if len(set_list[i]) == 4:  
+        print(i)
+        break
 
-print(lst)
-
+count = 0
+for i in range(len(sum_list)):
+    count += sum_list[i]
+print(count)
 
 #hrbbjkm
