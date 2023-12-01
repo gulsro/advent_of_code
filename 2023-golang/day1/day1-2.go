@@ -7,16 +7,14 @@ import (
 	"unicode"
 	"strconv"
 	"strings"
-	//"sort"
 )
 
 var digitMap = map[string]int {
 		"one": 1, "two": 2, "three": 3,
 		"four": 4, "five": 5, "six": 6,
 		"seven": 7, "eight": 8, "nine": 9,
-		"twone": 2, "sevenine": 7, "eighthree": 8,
-		"eightwo": 8, "oneight": 1,
 	}
+
 var keyOrder = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 var trickyOnes = []string{"twone", "sevenine", "oneight", "eighthree", "eightwo"}
 
@@ -67,14 +65,14 @@ func main(){
 }
 
 func readLines(filePath string) ([]string){
-	file, err := os.Open(filePath)
+	var lines []string
 
+	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(1);
 	}
 
-	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan(){
 		lines = append(lines, scanner.Text())
@@ -105,15 +103,14 @@ func replaceLastOneToDigit(line string) string {
 }
 
 func getFirstDigit(line string) (int){
-	found := 0
+	var found bool
 	var first rune
 	for _, c := range line{
 		if unicode.IsDigit(c){
-			if (found == 0){
+			if !found {
 				first = c
-				found = 1
+				found = true
 			}
-			//last = c
 		}
 	}
 	f, err := strconv.Atoi(string(first))
@@ -124,14 +121,12 @@ func getFirstDigit(line string) (int){
 }
 
 func getLastDigit(line string) (int){
-	found := 0
-//	var first rune
+	var found bool
 	var last rune
 	for _, c := range line{
 		if unicode.IsDigit(c){
-			if (found == 0){
-			//	first = c
-				found = 1
+			if !found {
+				found = true
 			}
 			last = c
 		}
@@ -164,17 +159,18 @@ func getTrickyNumbs(key string)(int){
 }
 
 func getNumb(line string) (int){
-	found := 0
+	var found bool
 	var first rune
 	var last rune
 	for _, c := range line{
-		if unicode.IsDigit(c){
-			if (found == 0){
-				first = c
-				found = 1
-			}
-			last = c
+		if !unicode.IsDigit(c){
+			continue
 		}
+		if (!found){
+			first = c
+			found = true
+		}
+		last = c
 	}
 	f, err := strconv.Atoi(string(first))
 	if err != nil {
@@ -184,6 +180,5 @@ func getNumb(line string) (int){
 	if err != nil {
 		os.Exit(1);
 	}
-	numb := 10 * f + l
-	return numb
+	return 10 * f + l
 }

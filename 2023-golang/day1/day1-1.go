@@ -35,17 +35,18 @@ func readLines(filePath string) ([]string){
 }
 
 func getNumb(line string) (int){
-	found := 0
+	var found bool
 	var first rune
 	var last rune
 	for _, c := range line{
-		if unicode.IsDigit(c){
-			if (found == 0){
-				first = c
-				found = 1
-			}
-			last = c
+		if !unicode.IsDigit(c){
+			continue
 		}
+		if (!found){
+			first = c
+			found = true
+		}
+		last = c
 	}
 	f, err := strconv.Atoi(string(first))
 	if err != nil {
@@ -55,6 +56,5 @@ func getNumb(line string) (int){
 	if err != nil {
 		os.Exit(1);
 	}
-	numb := 10 * f + l
-	return numb
+	return 10 * f + l
 }
