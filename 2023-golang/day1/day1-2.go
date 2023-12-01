@@ -20,43 +20,39 @@ var trickyOnes = []string{"twone", "sevenine", "oneight", "eighthree", "eightwo"
 
 
 func main(){
-	sum := 0
-	number := 0
-	found := 0
+	var found bool
+	var sum int
+	var number int
 	arr := readLines("text2")
 
 	for _, lineRaw := range arr {
-		found = 0
+		found = false
 		for _, key := range trickyOnes {
 			if strings.Contains(lineRaw, key) == true {
 
 				if strings.Compare(key, lineRaw) == 0 {
 					number = getTrickyNumbs(key)
 					fmt.Println(number)
-					found = 1
+					found = true
 					break
 				}
 				number = getTrickyNumbs(key)
 				lineRaw := strings.Replace(lineRaw, key, strconv.Itoa(number), -1)
-
 				converted := replaceFirstToDigit(lineRaw)
 				first := getFirstDigit(converted)
 				converted = replaceLastOneToDigit(converted)
 				last := getLastDigit(converted)
-				number = getNumber(first, last)
+				number = joinDigits(first, last)
 				fmt.Println(number)
-				found = 1
+				found = true
 			}
 		}
-		if found == 0 {
+		if !found {
 			converted := replaceFirstToDigit(lineRaw)
 			first := getFirstDigit(converted)
-			//fmt.Print(numb, " ")
 			converted = replaceLastOneToDigit(converted)
-		//	fmt.Println(converted)
 			last := getLastDigit(converted)
-			//fmt.Println(numb2)
-			number = getNumber(first, last)
+			number = joinDigits(first, last)
 			fmt.Println(number)
 		}
 		sum += number
@@ -138,7 +134,7 @@ func getLastDigit(line string) (int){
 	return l
 }
 
-func getNumber(firstDigit int, lastDigit int)(int){
+func joinDigits(firstDigit int, lastDigit int)(int){
 	return 10 * firstDigit + lastDigit
 }
 
@@ -156,29 +152,4 @@ func getTrickyNumbs(key string)(int){
 		return 82
 	}
 	return 0
-}
-
-func getNumb(line string) (int){
-	var found bool
-	var first rune
-	var last rune
-	for _, c := range line{
-		if !unicode.IsDigit(c){
-			continue
-		}
-		if (!found){
-			first = c
-			found = true
-		}
-		last = c
-	}
-	f, err := strconv.Atoi(string(first))
-	if err != nil {
-		os.Exit(1);
-	}
-	l, err := strconv.Atoi(string(last))
-	if err != nil {
-		os.Exit(1);
-	}
-	return 10 * f + l
 }
